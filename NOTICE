@@ -1,0 +1,12 @@
+Tab Group Workspace
+
+This project is based on "Tab Out" by Zara Zhangrui:
+https://github.com/zarazhangrui/tab-out
+
+Upstream reference commit used for the original local installation:
+2c9b9c5a92d37e2bc1d1f121986f880467e0ef92
+
+The upstream project and this derivative are distributed under the MIT License.
+Major derivative changes include native Chrome group-first organization, duplicate collapsing, local activity hints, drag-and-drop grouping, automatic grouping, compact masonry layout, optional almanac, and user configuration.
+
+Modifications copyright (c) 2026 Tab Group Workspace contributors.

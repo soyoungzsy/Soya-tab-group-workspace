@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tab Group Workspace</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><img id="workspaceAvatar" src="icons/icon128.png" alt=""><strong id="workspaceTitle">My Tab Workspace</strong></div>
+      <div class="header-almanac">
+        <strong id="dailyDateLine">10月08日 · 星期四</strong>
+        <span id="dailyTime">00:00</span>
+        <span class="term" id="dailyTerm">寒露</span>
+        <span class="ganzhi" id="dailyElement">乙卯日 · 木</span>
+        <span class="mini-oracle good"><b>宜</b><span id="dailySuitable"></span></span>
+        <span class="mini-oracle careful"><b>慎</b><span id="dailyCaution"></span></span>
+      </div>
+      <div class="metrics" id="metrics"></div>
+      <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="搜索网页或分组"></label>
+      <button class="button" data-action="refresh">刷新</button>
+    </header>
+
+    <section class="action-strip" id="duplicateStrip" hidden></section>
+
+    <section class="groups" id="groups"></section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="config.js"></script>
+  <script src="config.local.js" onerror="void 0"></script>
+  <script src="core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

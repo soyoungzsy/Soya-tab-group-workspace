@@ -1,0 +1,11 @@
+{
+  "name": "tab-group-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local-first Chrome new-tab workspace built around native tab groups",
+  "scripts": {
+    "test": "node --test tests/core.test.js",
+    "check": "node --check extension/core.js && node --check extension/app.js && node --check extension/background.js && node -e \"JSON.parse(require('fs').readFileSync('extension/manifest.json','utf8'))\""
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Group Workspace",
+  "version": "0.1.0",
+  "description": "A local-first Chrome new-tab workspace built around native tab groups.",
+  "permissions": ["tabs", "activeTab", "storage", "tabGroups", "idle", "alarms"],
+  "chrome_url_overrides": { "newtab": "index.html" },
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_title": "Tab Group Workspace",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
