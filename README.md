@@ -6,7 +6,7 @@
 
 这是给电脑上的 Chrome 浏览器加一个小工具，不需要写代码。请先用几个不重要的网页试用。
 
-1. 在本页上方点击绿色 **Code** 按钮，再点 **Download ZIP**（下载压缩包）。
+1. 打开[固定版本下载页](https://github.com/soyoungzsy/Soya-tab-group-workspace/releases/tag/v0.1.1)，在下方 Assets（下载文件）点 Source code (zip)，下载压缩包。
 2. 在电脑的“下载”文件夹找到压缩包，双击解压。不要删除解压出的文件夹，浏览器之后还要读取它。
 3. 在 Chrome 顶部地址栏输入 `chrome://extensions` 并回车，打开右上角“开发者模式”。这里是 Chrome 安装本地小工具的入口，不要求你会编程。
 4. 点击“加载已解压的扩展程序”，选择 解压后文件夹里的 `extension` 文件夹。选中的是文件夹，不是里面某个文件。
@@ -131,9 +131,15 @@ npm run check
 
 ## 上游与许可证
 
-本项目基于 Zara Zhangrui 的 [tab-out](https://github.com/zarazhangrui/tab-out) 演化而来，并保留 MIT 许可证。差异和来源记录见 [NOTICE](NOTICE)。
+本项目基于 Zara Zhang 的 [tab-out](https://github.com/zarazhangrui/tab-out) 演化而来，并保留 MIT 许可证。差异和来源记录见 [NOTICE](NOTICE)。
 
 ## 状态
 
 仓库已公开；本轮尚未验证真实 Chrome 安装、恢复行为或正式 Release。公开可读与正式发行验收是不同状态。
 
+
+## 来源与致谢
+
+本项目在[Zara Zhang的Tab Out](https://github.com/zarazhangrui/tab-out)基础上改造。原作提供标签页总览基础，Soya增加原生分组、去重、拖动归类等；完整参考提交、改动和许可证见[NOTICE](NOTICE)。原有[MIT版权声明](LICENSE)保留在下载包中。
+
+本轮版本: 0.1.1 · [Release / 固定下载](https://github.com/soyoungzsy/Soya-tab-group-workspace/releases/tag/v0.1.1)

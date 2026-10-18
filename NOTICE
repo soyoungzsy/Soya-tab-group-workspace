@@ -1,6 +1,6 @@
 Tab Group Workspace
 
-This project is based on "Tab Out" by Zara Zhangrui:
+This project is based on "Tab Out" by Zara Zhang (@zarazhangrui):
 https://github.com/zarazhangrui/tab-out
 
 Upstream reference commit used for the original local installation:
@@ -10,3 +10,8 @@ The upstream project and this derivative are distributed under the MIT License.
 Major derivative changes include native Chrome group-first organization, duplicate collapsing, local activity hints, drag-and-drop grouping, automatic grouping, compact masonry layout, optional almanac, and user configuration.
 
 Modifications copyright (c) 2026 Tab Group Workspace contributors.
+
+Relation: derivative of Tab Out (code and interaction foundation), not merely visual inspiration.
+Use the original upstream LICENSE in every source or installation distribution. Soya changes do not remove the original copyright. No endorsement by the upstream author is implied.
+
+中文：本项目基于Zara Zhang的Tab Out代码与交互基础改造，不只是视觉启发。保留原项目的MIT版权与许可；Soya的改动包括原生分组优先、去重、拖动归类、总览布局和可选日签等。不暗示原作者背书。上述参考提交已在原仓库核实存在。
