@@ -1,7 +1,15 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const C = require('../extension/core.js');
+
+test('keeps row actions clickable by limiting tab dragging to the favicon handle', () => {
+  const appSource = fs.readFileSync(path.join(__dirname, '../extension/app.js'), 'utf8');
+  assert.doesNotMatch(appSource, /<li class="tab-row[^>]*draggable="true"/);
+  assert.match(appSource, /class="favicon tab-drag-handle" draggable="true" data-drag-type="tab" data-tab-id="\$\{tab\.id\}"/);
+});
 
 test('groups tabs strictly by existing Chrome group', () => {
   const tabs = [{ id: 1, groupId: 10, url: 'https://github.com/a', title: 'A' }, { id: 2, groupId: 20, url: 'https://github.com/b', title: 'B' }];

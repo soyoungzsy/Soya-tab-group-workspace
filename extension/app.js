@@ -174,8 +174,8 @@ function renderGroups(filter = '') {
       const inlineDecision = suggestion ? `<div class="inline-decision"><button class="text-button" data-action="move-tab" data-tab-id="${tab.id}" data-target-group="${suggestion.targetGroupId}">移到 ${esc(suggestion.targetCategory)}</button><button class="text-button" data-action="keep-group" data-tab-id="${tab.id}">留在 ${esc(group.title || '未分组')}</button></div>` : '';
       const closeLabel = learningIds.has(tab.id) ? '学完关闭' : '×';
       return `
-      <li class="tab-row ${tab.active ? 'active' : ''}" draggable="true" data-drag-type="tab" data-tab-id="${tab.id}">
-        <div class="favicon">${favicon(tab)}</div>
+      <li class="tab-row ${tab.active ? 'active' : ''}" data-tab-id="${tab.id}">
+        <div class="favicon tab-drag-handle" draggable="true" data-drag-type="tab" data-tab-id="${tab.id}" title="拖动到其他分组">${favicon(tab)}</div>
         <button class="tab-main" data-action="focus" data-tab-id="${tab.id}">
           <strong title="${esc(tab.title || tab.url)}">${esc(tab.title || tab.url)}</strong>
           <span>${esc(tab.siteName)} · 本周 ${formatDuration(tab.usage.activeMs || 0)} · 最后查看 ${formatAgo(tab.usage.lastActiveAt || tab.lastAccessed)}</span>
@@ -223,14 +223,14 @@ window.addEventListener('resize', () => {
 });
 document.addEventListener('dragstart', event => {
   if (event.target.closest('button') && !event.target.closest('.tab-main')) { event.preventDefault(); return; }
-  const tabRow = event.target.closest('[data-drag-type="tab"]');
+  const tabDragHandle = event.target.closest('[data-drag-type="tab"]');
   const groupHeader = event.target.closest('[data-drag-type="group"]');
-  if (tabRow) dragging = { type: 'tab', id: Number(tabRow.dataset.tabId) };
+  if (tabDragHandle) dragging = { type: 'tab', id: Number(tabDragHandle.dataset.tabId) };
   else if (groupHeader) dragging = { type: 'group', id: Number(groupHeader.dataset.groupId) };
   else return;
   event.dataTransfer.effectAllowed = 'move';
   event.dataTransfer.setData('text/plain', `${dragging.type}:${dragging.id}`);
-  (tabRow || groupHeader.closest('.chrome-group')).classList.add('dragging');
+  (tabDragHandle?.closest('.tab-row') || groupHeader.closest('.chrome-group')).classList.add('dragging');
 });
 document.addEventListener('dragover', event => {
   const group = event.target.closest('.chrome-group');
