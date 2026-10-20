@@ -146,6 +146,16 @@ function duplicateMap(tabs) {
   return new Map([...map].filter(([, items]) => items.length > 1));
 }
 
+function planDuplicateCleanup(tabs) {
+  const keepIds = [], closeIds = [];
+  for (const copies of duplicateMap(tabs).values()) {
+    const keep = copies.find(tab => tab.active) || [...copies].sort((a, b) => (b.lastAccessed || 0) - (a.lastAccessed || 0))[0];
+    keepIds.push(keep.id);
+    closeIds.push(...copies.filter(tab => tab.id !== keep.id).map(tab => tab.id));
+  }
+  return { keepIds, closeIds };
+}
+
 function collapseDuplicates(tabs) {
   const duplicates = duplicateMap(tabs), hiddenIds = new Set(), representativeByUrl = new Map();
   for (const [url, copies] of duplicates) {
@@ -244,6 +254,6 @@ function closeScore(tab, now = Date.now()) {
   return Math.round(Math.min(100, inactiveDays * 12) + Math.max(0, 60 - activeMs / 60000 * 3) + Math.max(0, 20 - reloads * 4));
 }
 
-const api = { TAB_GROUP_NONE, DAY_MS, escapeHtml, normalizeUrl, hostnameOf, isEmptyNewTab, sexagenaryDay, elementAdvice, solarTermInfo, siteName, inferCategory, categoryFromGroupTitle, duplicateMap, collapseDuplicates, reorderIds, applyGroupOrder, planAutoGrouping, buildGroupModel, findMisclassified, learningQueue, closeScore };
+const api = { TAB_GROUP_NONE, DAY_MS, escapeHtml, normalizeUrl, hostnameOf, isEmptyNewTab, sexagenaryDay, elementAdvice, solarTermInfo, siteName, inferCategory, categoryFromGroupTitle, duplicateMap, planDuplicateCleanup, collapseDuplicates, reorderIds, applyGroupOrder, planAutoGrouping, buildGroupModel, findMisclassified, learningQueue, closeScore };
 if (typeof module !== 'undefined') module.exports = api;
 if (typeof globalThis !== 'undefined') globalThis.TabOutCore = api;

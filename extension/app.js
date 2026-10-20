@@ -198,15 +198,20 @@ function renderGroups(filter = '') {
   requestAnimationFrame(layoutGroupMasonry);
 }
 
-async function closeDuplicates(scopeTabs = dashboard.tabs) {
-  const duplicates = TabOutCore.duplicateMap(scopeTabs);
-  const toClose = [];
-  for (const tabs of duplicates.values()) {
-    const keep = tabs.find(tab => tab.active) || [...tabs].sort((a, b) => (b.lastAccessed || 0) - (a.lastAccessed || 0))[0];
-    toClose.push(...tabs.filter(tab => tab.id !== keep.id).map(tab => tab.id));
+async function closeDuplicates(scopeTabs = null) {
+  const liveTabs = await chrome.tabs.query({});
+  const scopeIds = scopeTabs ? new Set(scopeTabs.map(tab => tab.id)) : null;
+  const candidates = liveTabs.filter(tab => (!scopeIds || scopeIds.has(tab.id)) && /^https?:/i.test(tab.url || ''));
+  const { closeIds } = TabOutCore.planDuplicateCleanup(candidates);
+  if (!closeIds.length) {
+    showToast('重复网页已经清理完成');
+    return { closed: 0, failed: 0 };
   }
-  if (toClose.length) await chrome.tabs.remove(toClose);
-  showToast(`已关闭 ${toClose.length} 个重复网页`);
+  const results = await Promise.allSettled(closeIds.map(tabId => chrome.tabs.remove(tabId)));
+  const closed = results.filter(result => result.status === 'fulfilled').length;
+  const failed = results.length - closed;
+  showToast(failed ? `已关闭 ${closed} 个，${failed} 个关闭失败` : `已关闭 ${closed} 个重复网页`);
+  return { closed, failed };
 }
 
 async function refresh() {
@@ -276,9 +281,17 @@ document.addEventListener('click', async event => {
     return;
   }
   if (action === 'close' || action === 'learned-close') await chrome.tabs.remove(tabId);
-  if (action === 'close-duplicates') { await closeDuplicates(); celebrate(button); }
+  if (action === 'close-duplicates') {
+    button.disabled = true; button.textContent = '清理中…';
+    const result = await closeDuplicates();
+    if (result.closed) celebrate(button);
+  }
   if (action === 'close-empty-tabs') { const count = dashboard.emptyNewTabs.length; if (count) await chrome.tabs.remove(dashboard.emptyNewTabs.map(tab => tab.id)); showToast(`已关闭 ${count} 个多余新标签页`); celebrate(button); }
-  if (action === 'close-group-duplicates') { await closeDuplicates(dashboard.groupModels.find(group => group.id === groupId)?.tabs || []); celebrate(button.closest('.chrome-group') || button); }
+  if (action === 'close-group-duplicates') {
+    button.disabled = true; button.textContent = '清理中…';
+    const result = await closeDuplicates(dashboard.groupModels.find(group => group.id === groupId)?.tabs || []);
+    if (result.closed) celebrate(button.closest('.chrome-group') || button);
+  }
   if (action === 'close-recommended') {
     const group = dashboard.groupModels.find(item => item.id === groupId);
     const learningGroup = ['AI', '学习'].includes(TabOutCore.categoryFromGroupTitle(group?.title));

@@ -31,6 +31,16 @@ test('shows one representative for duplicate pages and keeps the latest copy', (
   assert.equal(visible[0].duplicateCount, 2);
 });
 
+test('plans duplicate cleanup while preserving the active or newest tab', () => {
+  const tabs = [
+    { id: 1, url: 'https://a.test/page', active: false, lastAccessed: 30 },
+    { id: 2, url: 'https://a.test/page#section', active: true, lastAccessed: 10 },
+    { id: 3, url: 'https://b.test/page', active: false, lastAccessed: 20 },
+    { id: 4, url: 'https://b.test/page?utm_source=x', active: false, lastAccessed: 40 },
+  ];
+  assert.deepEqual(C.planDuplicateCleanup(tabs), { keepIds: [2, 4], closeIds: [1, 3] });
+});
+
 test('suggests a high-confidence target group without moving the tab', () => {
   const tabs = [{ id: 1, groupId: 10, url: 'https://figma.com/file/1', title: '海报设计' }];
   const groups = [{ id: 10, title: 'AI', color: 'blue' }, { id: 20, title: '设计', color: 'purple' }];
